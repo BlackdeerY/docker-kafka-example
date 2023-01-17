@@ -17,7 +17,7 @@ Kafka with ZooKeeper Example for Docker Compose
 - - -
 <br>
 
-docker-compose version은 v2를 사용 (예시에서는 v.2.15.1 사용)  
+docker-compose version은 v2를 사용 (예시에서는 v2.15.1 사용)  
 % `docker compose up -d`  
 로 빌드 및 실행한다.
 <br><br>
