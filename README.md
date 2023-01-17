@@ -12,7 +12,10 @@ Kafka with ZooKeeper Example for Docker Compose
 <https://www.apache.org/dyn/closer.cgi?path=/kafka/3.3.1/kafka_2.13-3.3.1.tgz>  
 위 페이지에서 받은 파일의 압축을 풀고, kafka_2.13-3.3.1 디렉터리의 이름을 kafka로 하여 함께 둔다.  
 (./kafka/bin, ./kafka/config, ...)  
-<br><br>  
+<br>
+![준비사항](./prepare.png)
+- - -
+<br>
 
 docker-compose version은 v.2.15.1 이상  
 `docker compose up -d`  
