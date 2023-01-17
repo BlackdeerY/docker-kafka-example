@@ -5,11 +5,11 @@ Kafka with ZooKeeper Example for Docker Compose
 프로젝트 클론 후, Dockerfile들의 COPY에 필요한 파일들을 준비한다.  
 
 https://www.apache.org/dyn/closer.lua/zookeeper/zookeeper-3.8.0/apache-zookeeper-3.8.0-bin.tar.gz  
-의 압축을 풀고, zookeeper-3.8.0-bin 디렉터리의 이름을 zookeeper로 하여 함께 둔다.  
+위 페이지에서 받은 파일의 압축을 풀고, zookeeper-3.8.0-bin 디렉터리의 이름을 zookeeper로 하여 함께 둔다.  
 (./zookeeper/bin, ./zookeeper/conf, ...)
 
 https://www.apache.org/dyn/closer.cgi?path=/kafka/3.3.1/kafka_2.13-3.3.1.tgz  
-의 압축을 풀고, kafka_2.13-3.3.1 디렉터리의 이름을 kafka로 하여 함께 둔다.  
+위 페이지에서 받은 파일의 압축을 풀고, kafka_2.13-3.3.1 디렉터리의 이름을 kafka로 하여 함께 둔다.  
 (./kafka/bin, ./kafka/config, ...)  
 <br><br>  
 
