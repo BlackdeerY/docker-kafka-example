@@ -19,7 +19,11 @@ Kafka with ZooKeeper Example for Docker Compose
 
 docker-compose version은 v2를 사용 (예시에서는 v2.15.1 사용)  
 % `docker compose up -d`  
-로 빌드 및 실행한다.
+로 빌드 및 실행한다.  
+<br>
+docker-compose 환경은 v2 기본값인 **buildkit 사용**이며,  
+만약 **Docker Desktop** 환경에서 `ERROR [internal] load metadata for docker.io/library/...` 에러가 난다면,  
+`~/.docker/config.json`에서 `"credStore": "desktop",` 부분을 `"credStore": "",`로 수정하고 Docker Desktop을 재시작  
 <br><br>
 
 % `docker attach kafka-cont-01`  
