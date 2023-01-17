@@ -17,14 +17,14 @@ Kafka with ZooKeeper Example for Docker Compose
 - - -
 <br>
 
-docker-compose version은 v.2.15.1 이상  
-`docker compose up -d`  
+docker-compose version은 v2를 사용 (예시에서는 v.2.15.1 사용)  
+% `docker compose up -d`  
 로 빌드 및 실행한다.
 <br><br>
 
-`docker attach kafka-cont-01`  
+% `docker attach kafka-cont-01`  
 내부로 진입하여  
-`/zookeeper/bin/zkServer.sh start`  
+&#35; `/zookeeper/bin/zkServer.sh start`  
 그러면  
 ```
 ZooKeeper JMX enabled by default
@@ -38,15 +38,15 @@ Starting zookeeper ... FAILED TO START
 다른 클러스터들도 마저 켜줘야하니 바로 다음으로 진행한다.
 
 나머지 컨테이너들도 내부로 진입하여 반복해준다.  
-`docker attach kafka-cont-02`  
-`/zookeeper/bin/zkServer.sh start`  
+% `docker attach kafka-cont-02`  
+&#35; `/zookeeper/bin/zkServer.sh start`  
 
-`docker attach kafka-cont-03`  
-`/zookeeper/bin/zkServer.sh start`  
+% `docker attach kafka-cont-03`  
+&#35; `/zookeeper/bin/zkServer.sh start`  
 <br><br>
 
 그 후, 각 클러스터 내부(`kafka-cont-01`,`kafka-cont-02`,`kafka-cont-03`)에서 아래 명령어로 상태 확인.  
-`/zookeeper/bin/zkServer.sh status`  
+&#35; `/zookeeper/bin/zkServer.sh status`  
 그러면  
 ```
 ZooKeeper JMX enabled by default
@@ -58,20 +58,20 @@ Mode: leader 혹은 follower
 <br><br>
 
 각 클러스터 내부(`kafka-cont-01`,`kafka-cont-02`,`kafka-cont-03`)에서  
-`/kafka/bin/kafka-server-start.sh /kafka/config/server.properties`  
+&#35; `/kafka/bin/kafka-server-start.sh /kafka/config/server.properties`  
 위 명령어를 셋 모두에서 실행하여, 카프카 역시 **멀티 브로커**로 실행해준다.  
 <br><br>
 
-`docker attach kafka-cont-producer`  
+% `docker attach kafka-cont-producer`  
 이 컨테이너 내부에서  
-`/kafka/bin/kafka-topics.sh --create --bootstrap-server kafka1:9092,kafka2:9092,kafka3:9092 --replication-factor 3 --partitions 1 --topic mytest`  
+&#35; `/kafka/bin/kafka-topics.sh --create --bootstrap-server kafka1:9092,kafka2:9092,kafka3:9092 --replication-factor 3 --partitions 1 --topic mytest`  
 로 토픽을 하나 생성해본다.  
 토픽이 생성되면  
-`/kafka/bin/kafka-console-producer.sh --broker-list kafka1:9092,kafka2:9092,kafka3:9092 --topic mytest`  
+&#35; `/kafka/bin/kafka-console-producer.sh --broker-list kafka1:9092,kafka2:9092,kafka3:9092 --topic mytest`  
 로 해당 토픽에 대해 원하는 문구들을 publish해본다.  
 <br><br>
 
-`docker attach kafka-cont-consumer`  
+% `docker attach kafka-cont-consumer`  
 이 컨테이너는 ENTRYPOINT가 미리 mytest 토픽을 subscribe하도록 되어 있다.  
 (`ENTRYPOINT [ "/kafka/bin/kafka-console-consumer.sh", "--bootstrap-server", "kafka1:9092,kafka2:9092,kafka3:9092", "--topic", "mytest", "--from-beginning" ]`)  
 실행되어 있었으니, log를 통해 문구들을 확인할 수 있다.  
