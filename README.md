@@ -36,7 +36,7 @@ FAILED TO START로 뜨지만, 멀티 클러스터 환경이라 클러스터 수�
 `/zookeeper/bin/zkServer.sh start`  
 <br><br>
 
-그 후, 각 클러스터 내부에서 아래 명령어로 상태 확인.  
+그 후, 각 클러스터 내부(`kafka-cont-01`,`kafka-cont-02`,`kafka-cont-03`)에서 아래 명령어로 상태 확인.  
 `/zookeeper/bin/zkServer.sh status`  
 그러면  
 ```
@@ -48,7 +48,7 @@ Mode: leader 혹은 follower
 로 잘 실행 중이며 leader와 follower가 결정된 것을 알 수 있다.  
 <br><br>
 
-각 클러스터 내부에서  
+각 클러스터 내부(`kafka-cont-01`,`kafka-cont-02`,`kafka-cont-03`)에서  
 `/kafka/bin/kafka-server-start.sh /kafka/config/server.properties`  
 로 카프카 역시 실행해준다.  
 <br><br>
