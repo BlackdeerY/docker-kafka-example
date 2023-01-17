@@ -1,14 +1,15 @@
 # docker-kafka-example
 Kafka with ZooKeeper Example for Docker Compose
-<br><br>
+- - -
+<br>
 
 프로젝트 클론 후, Dockerfile들의 COPY에 필요한 파일들을 준비한다.  
 
-https://www.apache.org/dyn/closer.lua/zookeeper/zookeeper-3.8.0/apache-zookeeper-3.8.0-bin.tar.gz  
-위 페이지에서 받은 파일의 압축을 풀고, zookeeper-3.8.0-bin 디렉터리의 이름을 zookeeper로 하여 함께 둔다.  
+<https://www.apache.org/dyn/closer.lua/zookeeper/zookeeper-3.8.0/apache-zookeeper-3.8.0-bin.tar.gz>  
+위 페이지에서 받은 파일의 압축을 풀고, apache-zookeeper-3.8.0-bin 디렉터리의 이름을 zookeeper로 하여 함께 둔다.  
 (./zookeeper/bin, ./zookeeper/conf, ...)
 
-https://www.apache.org/dyn/closer.cgi?path=/kafka/3.3.1/kafka_2.13-3.3.1.tgz  
+<https://www.apache.org/dyn/closer.cgi?path=/kafka/3.3.1/kafka_2.13-3.3.1.tgz>  
 위 페이지에서 받은 파일의 압축을 풀고, kafka_2.13-3.3.1 디렉터리의 이름을 kafka로 하여 함께 둔다.  
 (./kafka/bin, ./kafka/config, ...)  
 <br><br>  
@@ -66,3 +67,11 @@ Mode: leader 혹은 follower
 이 컨테이너는 ENTRYPOINT가 미리 mytest 토픽을 subscribe하도록 되어 있다.  
 (`ENTRYPOINT [ "/kafka/bin/kafka-console-consumer.sh", "--bootstrap-server", "kafka1:9092,kafka2:9092,kafka3:9092", "--topic", "mytest", "--from-beginning" ]`)  
 실행되어 있었으니, log를 통해 문구들을 확인할 수 있다.  
+<br><br>
+- - -
+`FROM openjdk` 도커 이미지로부터  
+ZooKeeper나 Kafka에 대한 환경변수 설정 없이  
+기본 apache 파일들(`apache-zookeeper-3.8.0-bin`,`kafka_2.13-3.3.1`)과 설정 파일들(`zoo.cfg`,`myid`,`server.properties`)만으로  
+멀티 클러스터, 멀티 브로커 예시를 준비했다.  
+단, 도커 컨테이너들의 네트워크와 호스트명 등과 consumer에 ENTRYPOINT로 고정된 특정 토픽의 subscribing 설정 등이 있으니,  
+기본적인 설정을 이해했다면 이후엔 마음껏 연구해보시길.
