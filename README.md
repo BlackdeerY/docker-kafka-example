@@ -86,4 +86,4 @@ ZooKeeper나 Kafka에 대한 환경변수 설정 없이
 기본 apache 파일들(`apache-zookeeper-3.8.0-bin`,`kafka_2.13-3.3.1`)과 설정 파일들(`zoo.cfg`,`myid`,`server.properties`)만으로  
 멀티 클러스터, 멀티 브로커 예시를 준비했다.  
 단, 도커 컨테이너들의 네트워크와 호스트명 등과 consumer에 ENTRYPOINT로 고정된 특정 토픽의 subscribing 설정 등이 있으니,  
-기본적인 설정을 이해했다면 이후엔 마음껏 연구해보시길.
+기본적인 설정을 이해했다면 이후엔 마음껏 바꿔가며 연구해보시길.
