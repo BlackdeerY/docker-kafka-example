@@ -31,11 +31,16 @@ ZooKeeper JMX enabled by default
 Using config: /zookeeper/bin/../conf/zoo.cfg  
 Starting zookeeper ... FAILED TO START
 ```
-FAILED TO START로 뜨지만, 멀티 클러스터 환경이라 클러스터 수가 부족하여 그런 것 뿐.  
+`FAILED TO START`로 뜨지만,  
+이 예시에서는 **멀티 클러스터 환경**으로 설정한 것이라 클러스터 수가 부족하여 그런 것 뿐.  
+내부에서는 다른 클러스터들을 기다리는 중이다.  
+(확인하고 싶으면 `start` 대신 `start-foreground`로 디버깅 가능)  
+다른 클러스터들도 마저 켜줘야하니 바로 다음으로 진행한다.
 
 나머지 컨테이너들도 내부로 진입하여 반복해준다.  
 `docker attach kafka-cont-02`  
 `/zookeeper/bin/zkServer.sh start`  
+
 `docker attach kafka-cont-03`  
 `/zookeeper/bin/zkServer.sh start`  
 <br><br>
@@ -49,12 +54,12 @@ Using config: /zookeeper/bin/../conf/zoo.cfg
 Client port found: 2181. Client address: localhost. Client SSL: false.
 Mode: leader 혹은 follower
 ```
-로 잘 실행 중이며 leader와 follower가 결정된 것을 알 수 있다.  
+로 잘 실행 중이며 `leader`나 `follower`로 결정된 것을 알 수 있다.  
 <br><br>
 
 각 클러스터 내부(`kafka-cont-01`,`kafka-cont-02`,`kafka-cont-03`)에서  
 `/kafka/bin/kafka-server-start.sh /kafka/config/server.properties`  
-로 카프카 역시 실행해준다.  
+위 명령어를 셋 모두에서 실행하여, 카프카 역시 **멀티 브로커**로 실행해준다.  
 <br><br>
 
 `docker attach kafka-cont-producer`  
