@@ -1,0 +1,157 @@
+services:
+  kafka-manual-zookeeper-01:
+    build:
+      context: ../
+      dockerfile: ./kafka-manual/Dockerfile-zookeeper-01
+      no_cache: true
+    image: kafka-manual-zookeeper-img-01
+    # volumes:
+    #   - ./lib_zkp1:/var/lib/zookeeper
+    # ports:
+    #   - "21811:2181"
+    #   - "28881:2888"
+    #   - "38881:3888"
+    container_name: kafka-manual-zookeeper-cont-01
+    stdin_open: true
+    tty: true
+    networks:
+      - network-kafka-manual
+    hostname: kafka-zookeeper-01
+# ----------------------------------------
+  kafka-manual-zookeeper-02:
+    depends_on:
+      - kafka-manual-zookeeper-01
+    build:
+      context: ../
+      dockerfile: ./kafka-manual/Dockerfile-zookeeper-02
+      no_cache: true
+    image: kafka-manual-zookeeper-img-02
+    # volumes:
+    #   - ./lib_zkp2:/var/lib/zookeeper
+    # ports:
+    #   - "21812:2181"
+    #   - "28882:2888"
+    #   - "38882:3888"
+    container_name: kafka-manual-zookeeper-cont-02
+    stdin_open: true
+    tty: true
+    networks:
+      - network-kafka-manual
+    hostname: kafka-zookeeper-02
+# ----------------------------------------
+  kafka-manual-zookeeper-03:
+    depends_on:
+      - kafka-manual-zookeeper-02
+    build:
+      context: ../
+      dockerfile: ./kafka-manual/Dockerfile-zookeeper-03
+      no_cache: true
+    image: kafka-manual-zookeeper-img-03
+    # volumes:
+    #   - ./lib_zkp3:/var/lib/zookeeper
+    # ports:
+    #   - "21813:2181"
+    #   - "28883:2888"
+    #   - "38883:3888"
+    container_name: kafka-manual-zookeeper-cont-03
+    stdin_open: true
+    tty: true
+    networks:
+      - network-kafka-manual
+    hostname: kafka-zookeeper-03
+# ----------------------------------------
+  kafka-manual-01:
+    depends_on:
+      - kafka-manual-zookeeper-01
+      - kafka-manual-zookeeper-02
+      - kafka-manual-zookeeper-03
+    build:
+      context: ../
+      dockerfile: ./kafka-manual/Dockerfile-kafka-01
+      no_cache: true
+    image: kafka-manual-img-01
+    # volumes:
+    #   - ./kfk_logs1:/tmp/kafka-logs
+    # ports:
+    #   - "19092:9092"
+    container_name: kafka-manual-cont-01
+    stdin_open: true
+    tty: true
+    networks:
+      - network-kafka-manual
+    hostname: kafka-01
+# ----------------------------------------
+  kafka-manual-02:
+    depends_on:
+      - kafka-manual-01
+    build:
+      context: ../
+      dockerfile: ./kafka-manual/Dockerfile-kafka-02
+      no_cache: true
+    image: kafka-manual-img-02
+    # volumes:
+    #   - ./kfk_logs2:/tmp/kafka-logs
+    # ports:
+    #   - "29092:9092"
+    container_name: kafka-manual-cont-02
+    stdin_open: true
+    tty: true
+    networks:
+      - network-kafka-manual
+    hostname: kafka-02
+# ----------------------------------------
+  kafka-manual-03:
+    depends_on:
+      - kafka-manual-02
+    build:
+      context: ../
+      dockerfile: ./kafka-manual/Dockerfile-kafka-03
+      no_cache: true
+    image: kafka-manual-img-03
+    # volumes:
+    #   - ./kfk_logs3:/tmp/kafka-logs
+    # ports:
+    #   - "39092:9092"
+    container_name: kafka-manual-cont-03
+    stdin_open: true
+    tty: true
+    networks:
+      - network-kafka-manual
+    hostname: kafka-03
+# ----------------------------------------
+  kafka-manual-producer:
+    depends_on:
+      - kafka-manual-01
+      - kafka-manual-02
+      - kafka-manual-03
+    build:
+      context: ../
+      dockerfile: ./kafka-manual/Dockerfile-copy-bash
+      no_cache: true
+    image: kafka-img-bash
+    container_name: kafka-manual-cont-producer
+    stdin_open: true
+    tty: true
+    networks:
+      - network-kafka-manual
+    hostname: kafka-producer
+# ----------------------------------------
+  kafka-manual-consumer:
+    depends_on:
+      - kafka-manual-producer
+    build:
+      context: ../
+      dockerfile: ./kafka-manual/Dockerfile-copy-bash
+      no_cache: true
+    image: kafka-img-bash
+    container_name: kafka-manual-cont-consumer
+    stdin_open: true
+    tty: true
+    networks:
+      - network-kafka-manual
+    hostname: kafka-consumer
+# ----------------------------------------
+# ========================================
+networks:
+  network-kafka-manual:
+    driver: bridge

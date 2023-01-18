@@ -1,4 +1,5 @@
 FROM openjdk
+
 COPY --chown=0:0 --chmod=775 ./kafka /kafka
 
 WORKDIR /

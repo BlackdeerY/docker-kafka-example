@@ -1,0 +1,13 @@
+FROM openjdk
+
+COPY --chown=0:0 --chmod=775 ./zookeeper /zookeeper
+COPY --chown=0:0 --chmod=775 ./zoo.cfg /zookeeper/conf
+COPY --chown=0:0 --chmod=775 ./myid_1 /var/lib/zookeeper/myid
+
+WORKDIR /
+ENTRYPOINT [ "/bin/sh", "/zookeeper/bin/zkServer.sh", "start-foreground" ]
+# ENTRYPOINT [ "/bin/bash" ]
+
+# EXPOSE 2181
+# EXPOSE 2888
+# EXPOSE 3888

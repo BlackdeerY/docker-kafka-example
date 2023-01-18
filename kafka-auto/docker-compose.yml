@@ -1,0 +1,163 @@
+services:
+  kafka-auto-zookeeper-01:
+    build:
+      context: ../
+      dockerfile: ./kafka-auto/Dockerfile-zookeeper-01
+      no_cache: true
+    image: kafka-auto-zookeeper-img-01
+    # volumes:
+    #   - ./lib_zkp1:/var/lib/zookeeper
+    # ports:
+    #   - "21811:2181"
+    #   - "28881:2888"
+    #   - "38881:3888"
+    container_name: kafka-auto-zookeeper-cont-01
+    stdin_open: true
+    tty: true
+    networks:
+      - network-kafka-auto
+    hostname: kafka-zookeeper-01
+# ----------------------------------------
+  kafka-auto-zookeeper-02:
+    depends_on:
+      - kafka-auto-zookeeper-01
+    build:
+      context: ../
+      dockerfile: ./kafka-auto/Dockerfile-zookeeper-02
+      no_cache: true
+    image: kafka-auto-zookeeper-img-02
+    # volumes:
+    #   - ./lib_zkp2:/var/lib/zookeeper
+    # ports:
+    #   - "21812:2181"
+    #   - "28882:2888"
+    #   - "38882:3888"
+    container_name: kafka-auto-zookeeper-cont-02
+    stdin_open: true
+    tty: true
+    networks:
+      - network-kafka-auto
+    hostname: kafka-zookeeper-02
+# ----------------------------------------
+  kafka-auto-zookeeper-03:
+    depends_on:
+      - kafka-auto-zookeeper-02
+    build:
+      context: ../
+      dockerfile: ./kafka-auto/Dockerfile-zookeeper-03
+      no_cache: true
+    image: kafka-auto-zookeeper-img-03
+    # volumes:
+    #   - ./lib_zkp3:/var/lib/zookeeper
+    # ports:
+    #   - "21813:2181"
+    #   - "28883:2888"
+    #   - "38883:3888"
+    container_name: kafka-auto-zookeeper-cont-03
+    stdin_open: true
+    tty: true
+    networks:
+      - network-kafka-auto
+    hostname: kafka-zookeeper-03
+# ----------------------------------------
+  kafka-auto-01:
+    depends_on:
+      - kafka-auto-zookeeper-01
+      - kafka-auto-zookeeper-02
+      - kafka-auto-zookeeper-03
+    build:
+      context: ../
+      dockerfile: ./kafka-auto/Dockerfile-kafka-01
+      no_cache: true
+    image: kafka-auto-img-01
+    # volumes:
+    #   - ./kfk_logs1:/tmp/kafka-logs
+    # ports:
+    #   - "19092:9092"
+    container_name: kafka-auto-cont-01
+    stdin_open: true
+    tty: true
+    networks:
+      - network-kafka-auto
+    hostname: kafka-01
+# ----------------------------------------
+  kafka-auto-02:
+    depends_on:
+      - kafka-auto-01
+    build:
+      context: ../
+      dockerfile: ./kafka-auto/Dockerfile-kafka-02
+      no_cache: true
+    image: kafka-auto-img-02
+    # volumes:
+    #   - ./kfk_logs2:/tmp/kafka-logs
+    # ports:
+    #   - "29092:9092"
+    container_name: kafka-auto-cont-02
+    stdin_open: true
+    tty: true
+    networks:
+      - network-kafka-auto
+    hostname: kafka-02
+# ----------------------------------------
+  kafka-auto-03:
+    depends_on:
+      - kafka-auto-02
+    build:
+      context: ../
+      dockerfile: ./kafka-auto/Dockerfile-kafka-03
+      no_cache: true
+    image: kafka-auto-img-03
+    # volumes:
+    #   - ./kfk_logs3:/tmp/kafka-logs
+    # ports:
+    #   - "39092:9092"
+    container_name: kafka-auto-cont-03
+    stdin_open: true
+    tty: true
+    networks:
+      - network-kafka-auto
+    hostname: kafka-03
+# ----------------------------------------
+  kafka-auto-producer:
+    depends_on:
+      - kafka-auto-01
+      - kafka-auto-02
+      - kafka-auto-03
+    build:
+      context: ../
+      dockerfile: ./kafka-manual/Dockerfile-copy-bash
+      no_cache: true
+    image: kafka-img-bash
+    container_name: kafka-auto-cont-producer
+    entrypoint: /bin/sh -c "sleep 5 &&
+                            /kafka/bin/kafka-topics.sh --create --bootstrap-server kafka-01:9092 --replication-factor 3 --partitions 3 --topic mytest &&
+                            sleep 2 &&
+                            /kafka/bin/kafka-console-producer.sh --broker-list kafka-01:9092 --topic mytest"
+    stdin_open: true
+    tty: true
+    networks:
+      - network-kafka-auto
+    hostname: kafka-producer
+# ----------------------------------------
+  kafka-auto-consumer:
+    depends_on:
+      - kafka-auto-producer
+    build:
+      context: ../
+      dockerfile: ./kafka-manual/Dockerfile-copy-bash
+      no_cache: true
+    image: kafka-img-bash
+    container_name: kafka-auto-cont-consumer
+    entrypoint: /bin/sh -c "sleep 7 &&
+                            /kafka/bin/kafka-console-consumer.sh --bootstrap-server kafka-01:9092 --topic mytest --from-beginning"
+    stdin_open: true
+    tty: true
+    networks:
+      - network-kafka-auto
+    hostname: kafka-consumer
+# ----------------------------------------
+# ========================================
+networks:
+  network-kafka-auto:
+    driver: bridge

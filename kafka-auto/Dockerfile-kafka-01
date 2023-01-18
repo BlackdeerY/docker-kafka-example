@@ -1,0 +1,10 @@
+FROM openjdk
+
+COPY --chown=0:0 --chmod=775 ./kafka /kafka
+COPY --chown=0:0 --chmod=775 ./server1.properties /kafka/config/server.properties
+
+WORKDIR /
+ENTRYPOINT [ "/bin/sh", "/kafka/bin/kafka-server-start.sh", "/kafka/config/server.properties" ]
+# ENTRYPOINT [ "/bin/bash" ]
+
+# EXPOSE 9092
