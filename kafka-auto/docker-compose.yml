@@ -131,9 +131,9 @@ services:
     image: kafka-img-bash
     container_name: kafka-auto-cont-producer
     entrypoint: /bin/sh -c "sleep 5 &&
-                            /kafka/bin/kafka-topics.sh --create --bootstrap-server kafka-01:9092 --replication-factor 3 --partitions 3 --topic mytest &&
+                            /kafka/bin/kafka-topics.sh --create --bootstrap-server kafka-01:9092,kafka-03:9092 --replication-factor 3 --partitions 3 --topic mytest &&
                             sleep 2 &&
-                            /kafka/bin/kafka-console-producer.sh --broker-list kafka-01:9092 --topic mytest"
+                            /kafka/bin/kafka-console-producer.sh --broker-list kafka-03:9092 --topic mytest"
     stdin_open: true
     tty: true
     networks:
@@ -150,7 +150,7 @@ services:
     image: kafka-img-bash
     container_name: kafka-auto-cont-consumer
     entrypoint: /bin/sh -c "sleep 7 &&
-                            /kafka/bin/kafka-console-consumer.sh --bootstrap-server kafka-01:9092 --topic mytest --from-beginning"
+                            /kafka/bin/kafka-console-consumer.sh --bootstrap-server kafka-01:9092,kafka-02:9092 --topic mytest --from-beginning"
     stdin_open: true
     tty: true
     networks:
