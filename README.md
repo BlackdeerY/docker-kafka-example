@@ -105,10 +105,10 @@ Mode: leader 혹은 follower
 
 % `docker attach kafka-manual-cont-producer`  
 프로듀서용 컨테이너 내부에서  
-&#35; `/kafka/bin/kafka-topics.sh --create --bootstrap-server kafka1:9092,kafka3:9092 --replication-factor 3 --partitions 3 --topic mytest`  
+&#35; `/kafka/bin/kafka-topics.sh --create --bootstrap-server kafka-01:9092,kafka-03:9092 --replication-factor 3 --partitions 3 --topic mytest`  
 로 토픽을 하나 생성해본다.  
 토픽이 생성되면  
-&#35; `/kafka/bin/kafka-console-producer.sh --broker-list kafka3:9092 --topic mytest`  
+&#35; `/kafka/bin/kafka-console-producer.sh --broker-list kafka-03:9092 --topic mytest`  
 로 해당 토픽에 대해 원하는 문자열들을 몇 줄 작성해본다.  
 <br><br>
 
